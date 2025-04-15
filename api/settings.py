@@ -4,12 +4,12 @@ import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY SETTINGS
+# SECURITY
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'insecure-key')
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
-# APPLICATIONS
+# APPS
 INSTALLED_APPS = [
     'jazzmin',
     'django.contrib.admin',
@@ -64,7 +64,7 @@ DATABASES = {
     'default': dj_database_url.config(default=f'sqlite:///{BASE_DIR}/db.sqlite3')
 }
 
-# PASSWORD VALIDATION
+# PASSWORD VALIDATORS
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -72,7 +72,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# INTERNATIONALIZATION
+# I18N
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
@@ -80,17 +80,18 @@ USE_TZ = True
 
 # STATIC & MEDIA FILES
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')  # collectstatic will populate this
 MEDIA_URL = '/david/'
-MEDIA_ROOT = BASE_DIR / 'uploads'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 
-# DEFAULT PRIMARY KEY FIELD
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# CORS CONFIG
+# CORS (for development or open API access)
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    "https://drf-api.onrender.com",
 ]
+CORS_ALLOW_ALL_ORIGINS = DEBUG  # optionally allow all in dev only
 
-# WHITENOISE CONFIG
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# AUTO FIELD
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

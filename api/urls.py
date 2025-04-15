@@ -11,24 +11,25 @@ from rest_framework.response import Response
 
 @api_view(["GET"])
 def root_view(request):
-    return Response({"message": "✅ Weekday API root is working!"})
+    return Response({"status": "ok"})
 
 schema_view = get_schema_view(
-   openapi.Info(
-      title="Weekday API",
-      default_version='v1',
-      description="API documentation for Contact, Products, Applicants",
-      terms_of_service="https://www.google.com/policies/terms/",
-      contact=openapi.Contact(email="support@example.com"),
-      license=openapi.License(name="BSD License"),
-   ),
-   public=True,
-   permission_classes=[permissions.AllowAny],
+    openapi.Info(
+        title="Weekday API",
+        default_version='v1',
+        description="API documentation for Contact, Products, Applicants",
+        terms_of_service="https://www.google.com/policies/terms/",
+        contact=openapi.Contact(email="support@example.com"),
+        license=openapi.License(name="BSD License"),
+    ),
+    public=True,
+    permission_classes=[permissions.AllowAny],
 )
 
 urlpatterns = [
     path('', root_view),
     path('admin/', admin.site.urls),
+
     path('api/', include('registration.urls')),
     path('api/', include('contact.urls')),
     path('api/', include('products.urls')),
@@ -36,5 +37,8 @@ urlpatterns = [
 
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+]
 
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# Only active in development — not used by WhiteNoise in production
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
