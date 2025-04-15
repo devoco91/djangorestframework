@@ -15,3 +15,4 @@ class Contact_u(models.Model):
 
     def __str__(self):
         return self.name
+    

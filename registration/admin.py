@@ -8,7 +8,7 @@ from .models import *
 class ApplicantAdmin(admin.ModelAdmin):
 
 
-    list_display=('firstname', 'lastname', 'email', 'phone','address','course','center','mode')
+    list_display=('firstname', 'lastname', 'email', 'phone','address','course','center','mode','date')
 
     list_filter=('firstname', 'lastname','address','course','center', 'date')
 

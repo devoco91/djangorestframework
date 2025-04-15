@@ -7,7 +7,7 @@ from .models import *
 
 
 class ContactAdmin(admin.ModelAdmin):
-    list_display=('name', 'email','subject','phone','date','message')
+    list_display=('name', 'email','subject','phone','date','message','date')
     list_filter=('date','subject')
 
 

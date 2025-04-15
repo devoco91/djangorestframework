@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: drf-api
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn api.wsgi:application
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: api.settings
+      - key: DJANGO_SECRET_KEY
+        value: your-secret-key
+      - key: DJANGO_ALLOWED_HOSTS
+        value: drf-api.onrender.com
+      - key: DATABASE_URL
+        fromDatabase:
+          name: drf-db
+          property: connectionString
+
+databases:
+  - name: drf-db
+    databaseName: drf_db
+    user: drf_user
